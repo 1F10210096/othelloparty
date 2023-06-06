@@ -54,7 +54,7 @@ const Home = () => {
                     className={styles.stone}
                     style={{
                       background: color === 1 ? '#000' : color === 2 ? '#fff' : '#0f0',
-                      width: color === 3 ? '20px' : '', // 緑の駒の幅を適切なサイズに設定してください
+                      width: color === 3 ? '20px' : '' // 緑の駒の幅を適切なサイズに設定してください
                       // height: color === 3 ? '20px' : '',
                       // display: color === 3 ? 'flex' : '', // 緑の駒を中央に配置するために追加
                       // alignItems: color === 3 ? 'center' : '',
