@@ -24,7 +24,7 @@ const board: BoardArr = [
 // ];
 
 export const look = (x: number, y: number) => {
-  const lookside = board[y].slice(x + 1, 8); // xとyのインデックスが逆になっていたため修正
+  const lookside = board[y].slice(x + 1, 8);
   const somecoma = lookside.indexOf(1);
   const looka = lookside.slice(0, somecoma);
   if (looka.indexOf(0) === -1) {
@@ -34,10 +34,24 @@ export const look = (x: number, y: number) => {
   }
   return board;
 };
+
+export const look_left = (x: number, y: number) => {
+  const lookside = board[y].slice(0, x).reverse();
+  const somecoma = lookside.indexOf(1); 
+  const looka = lookside.slice(0, somecoma);
+  if (looka.indexOf(0) === -1) {
+    for (let i = 1; i <= somecoma; i++) {
+      board[y][x - i] = 1;
+    }
+  }
+  return board;
+};
+
 export const boardRepository = {
   getBoard: () => board,
   clickBoard: (x: number, y: number, userId: UserId): number[][] => {
     look(x, y);
+    look_left(x, y);
     board[y][x] = userColorRepository.getUserColor(userId);
     console.log(board);
     return board;
