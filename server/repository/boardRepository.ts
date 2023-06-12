@@ -51,6 +51,7 @@ export const look_Vertical1 = (x: number, y: number, userId: UserId) => {
   }
 };
 
+const aaa = 0
 export const look_Vertical2 = (x: number, y: number, userId: UserId) => {
   const a = board.slice(0, y).reverse();
   const b = a.map((item) => item[x]);
