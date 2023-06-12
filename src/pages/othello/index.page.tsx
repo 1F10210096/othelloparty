@@ -11,12 +11,12 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
-    const board = await apiClient.board.$get().catch(returnNull);
+    const res = await apiClient.rooms.$get().catch(returnNull);
 
-    if (board !== null) setBoard(board);
+    if (res !== null) setBoard(res.board);
   };
   const onClick = async (x: number, y: number) => {
-    await apiClient.board.$post({ body: { x, y } });
+    await apiClient.rooms.board.$post({ body: { x, y } });
     await fetchBoard();
   };
 
