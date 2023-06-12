@@ -38,6 +38,7 @@ const Home = () => {
         <p>
           現在の手番は<span id="current-turn">黒</span>です
         </p>
+        
         {/* <p>
           黒の駒数: <span id="countblack">{blackStoneCount}</span>
         </p>
@@ -47,14 +48,22 @@ const Home = () => {
 
         <div className={styles.board}>
           {board.map((row, y) =>
+            // eslint-disable-next-line complexity
             row.map((color, x) => (
-              <div className={styles.cell} key={`${x}-${y}`} onClick={() => onClick(x, y)}>
+              <div
+                className={styles.cell}
+                key={`${x}-${y}`}
+                onClick={() => onClick(x, y)}
+                style={{ position: 'relative' }}
+              >
                 {color !== 0 && (
                   <div
                     className={styles.stone}
                     style={{
                       background: color === 1 ? '#000' : color === 2 ? '#fff' : '#0f0',
                       width: color === 3 ? '20px' : '',
+                      height: color === 3 ? '20px' : '',
+
                       // height: color === 3 ? '20px' : '',
                       // display: color === 3 ? 'flex' : '', // 緑の駒を中央に配置するために追加
                       // alignItems: color === 3 ? 'center' : '',
