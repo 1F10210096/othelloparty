@@ -12,7 +12,10 @@ const Home = () => {
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
     const res = await apiClient.rooms.$get().catch(returnNull);
-
+    if (board === null) {
+      const newRoom = await apiClient.rooms.$post();
+      setBoard(newRoom.board);
+    }
     if (res !== null) setBoard(res.board);
   };
   const onClick = async (x: number, y: number) => {
@@ -22,9 +25,11 @@ const Home = () => {
 
   useEffect(() => {
     const cancelId = setInterval(fetchBoard, 500);
+    
     return () => {
       clearInterval(cancelId);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!board || !user) return <Loading visible />;
@@ -62,7 +67,7 @@ const Home = () => {
                     style={{
                       background: color === 1 ? '#000' : color === 2 ? '#fff' : '#0f0',
                       width: color === 3 ? '20px' : '',
-                      height: color === 3 ? '20px' : '',
+                      height: color === 3 ? '20px' : ''
 
                       // height: color === 3 ? '20px' : '',
                       // display: color === 3 ? 'flex' : '', // 緑の駒を中央に配置するために追加
