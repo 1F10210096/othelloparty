@@ -24,7 +24,6 @@ export const createTask = async (label: TaskModel['label']): Promise<TaskModel> 
   const prismaTask = await prismaClient.task.create({
     data: { id: randomUUID(), done: false, label, createdAt: new Date() },
   });
-
   return toModel(prismaTask);
 };
 

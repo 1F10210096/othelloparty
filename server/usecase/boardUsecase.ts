@@ -3,7 +3,7 @@ import { userColorUsecase } from './userColorUsecase';
 export type BoardArr = number[][];
 export type Pos = { x: number; y: number };
 const board: BoardArr = [
-  [0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 3, 0, 0, 0, 0],
   [0, 0, 3, 2, 1, 0, 0, 0],
@@ -206,11 +206,11 @@ export const look_naname4_kouho = (x: number, y: number, userId: UserId) => {
 let playerColor = 1;
 export const boardRepository = {
   getBoard: () => board,
-  currentPlayer: 1,
   clickBoard: (x: number, y: number, userId: UserId): number[][] => {
     if (board[y][x] !== 0 && board[y][x] !== 3) {
       return board;
     }
+    
     if (playerColor === userColorUsecase.getUserColor(userId)) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);

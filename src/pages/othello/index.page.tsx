@@ -20,6 +20,7 @@ const Home = () => {
   };
   const onClick = async (x: number, y: number) => {
     await apiClient.rooms.board.$post({ body: { x, y } });
+    
     await fetchBoard();
   };
 

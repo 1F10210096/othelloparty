@@ -19,7 +19,7 @@ export const roomsRepository = {
         board: room.board,
         status: room.status,
         createdAt: new Date(room.created),
-      },
+          },
     });
   },
   findLatest: async () : Promise<RoomModel | null> => {
