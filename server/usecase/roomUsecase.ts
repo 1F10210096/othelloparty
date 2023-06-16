@@ -237,7 +237,6 @@ export const roomUsecase = {
 
     if (newBoard[y][x] !== 0 && newBoard[y][x] !== 3) {
       await roomsRepository.save(newRoom);
-
     return newRoom;
     }
 
@@ -246,7 +245,7 @@ export const roomUsecase = {
 
     return newRoom;
     }
-
+    
     if (playerColor === userColorUsecase.getUserColor(userId)) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
@@ -280,17 +279,22 @@ export const roomUsecase = {
           }
         });
       });
-      
-    }
-    
+      let a = 0
+      newBoard.forEach((row, y) => {
+        row.forEach((element, x) => {
+          if (element === 3) {
+            a =a + 1
+          }
+        });
+      });
+      if (a>=1){
+          await roomsRepository.save(newRoom);
+        return newRoom;
+        }
+      }
     newBoard[y][x] = userColorUsecase.getUserColor(userId);
-  playerColor = 3 - userColorUsecase.getUserColor(userId);
-
-    
-    
-    
+  playerColor = 3 - userColorUsecase.getUserColor(userId); 
     await roomsRepository.save(newRoom);
-
     return newRoom;
   },
 };
