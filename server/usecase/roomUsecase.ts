@@ -27,8 +27,7 @@ export const roomUsecase = {
     await roomsRepository.save(newRoom);
     return newRoom;
   },
-
-
+  //click
   
   clickBoard: async (x: number, y:number, userId:UserId): Promise<RoomModel> => {
     const latest = await roomsRepository.findLatest()
