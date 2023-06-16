@@ -27,7 +27,7 @@ export const roomUsecase = {
     await roomsRepository.save(newRoom);
     return newRoom;
   },
-  //click
+  //clicksyori
   
   clickBoard: async (x: number, y:number, userId:UserId): Promise<RoomModel> => {
     const latest = await roomsRepository.findLatest()
