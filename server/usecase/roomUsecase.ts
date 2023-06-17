@@ -234,11 +234,6 @@ export const roomUsecase = {
     const newRoom:RoomModel = { ...latest, board: newBoard };
 
 
-    if (newBoard[y][x] !== 0 && newBoard[y][x] !== 3) {
-      await roomsRepository.save(newRoom);
-    return newRoom;
-    }
-
     if (newBoard[y][x] !== 3) {
       await roomsRepository.save(newRoom);
 
