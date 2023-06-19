@@ -8,8 +8,9 @@ import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
 
 const Home = () => {
+  const RoomIdString = "hoge"
   const [user] = useAtom(userAtom);
-  const [RoomId, setRoomId] = useState('');
+  const [roomId,setRoomId] = useState("")
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
     const board = await apiClient.rooms.$get().catch(returnNull);
@@ -21,7 +22,8 @@ const Home = () => {
   };
   const onClick = async (x: number, y: number) => {
     await apiClient.rooms.board.$post({ body: { x, y } });
-    
+    await fetchRoomId();
+    console.log(RoomIdString);
     await fetchBoard();
   };
 
@@ -29,16 +31,16 @@ const Home = () => {
     const RoomId = await apiClient.rooms.$get().catch(returnNull);
     if (RoomId === null) {
       const newRoomId = await apiClient.rooms.$post();
-      setRoomId(newRoomId.id);
+      setRoomId(String(newRoomId.id));
     }
     if (RoomId !== null) {
-      setRoomId(RoomId.id)
+      setRoomId(String(RoomId.id));
+      console.log(RoomIdString);
     };
   };
 
   useEffect(() => {
     const cancelId = setInterval(fetchBoard, 500);
-    
     return () => {
       clearInterval(cancelId);
     };
@@ -52,7 +54,7 @@ const Home = () => {
       <div className={styles.container}>
         <div className={styles.me} />
         <div className={styles.component} />
-        <p>Room ID: {RoomId}</p>
+        <p>Room ID:{roomId}</p>
         <p>
           現在の手番は<span id="current-turn">黒</span>です
         </p>
