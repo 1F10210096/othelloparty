@@ -1,4 +1,5 @@
 import type { RoomModel } from "$/commonTypesWithClient/models";
+import type { RoomId } from "$/commonTypesWithClient/branded";
 import { roomIdParser } from "$/service/idParsers";
 import { prismaClient } from "$/service/prismaClient";
 import { z } from "zod";
@@ -28,4 +29,8 @@ export const roomsRepository = {
   })
   return room && toRoomModel(room); 
  },
+//  getRoomInfo: async (RoomId:RoomId): Promise<RoomModel> => {
+//   const roomInfo = RoomId
+//   return roomInfo;
+// }
 };

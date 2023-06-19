@@ -9,6 +9,7 @@ import styles from './othello.module.css';
 
 const Home = () => {
   const [user] = useAtom(userAtom);
+  const [RoomId, setRoomId] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
     const board = await apiClient.rooms.$get().catch(returnNull);
@@ -24,13 +25,23 @@ const Home = () => {
     await fetchBoard();
   };
 
+  const fetchRoomId = async () => {
+    const RoomId = await apiClient.rooms.$get().catch(returnNull);
+    if (RoomId === null) {
+      const newRoomId = await apiClient.rooms.$post();
+      setRoomId(newRoomId.id);
+    }
+    if (RoomId !== null) {
+      setRoomId(RoomId.id)
+    };
+  };
+
   useEffect(() => {
     const cancelId = setInterval(fetchBoard, 500);
     
     return () => {
       clearInterval(cancelId);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!board || !user) return <Loading visible />;
@@ -41,6 +52,7 @@ const Home = () => {
       <div className={styles.container}>
         <div className={styles.me} />
         <div className={styles.component} />
+        <p>Room ID: {RoomId}</p>
         <p>
           現在の手番は<span id="current-turn">黒</span>です
         </p>

@@ -19,4 +19,5 @@ export type RoomModel = {
   board: number[][];
   status:'waiting' | 'playing' | 'ended';
   created:number;
+  
 }

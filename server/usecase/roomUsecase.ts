@@ -83,7 +83,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname = (x: number, y: number, userId: UserId) => {
+    const look_naname = (x: number, y: number, userId:UserId) => {
       let i = 1;
       const a = [];
       while (x + i < latest.board.length && y + i < latest.board.length) {
@@ -234,13 +234,11 @@ export const roomUsecase = {
     const newRoom:RoomModel = { ...latest, board: newBoard };
 
 
-    if (newBoard[y][x] !== 3) {
-      await roomsRepository.save(newRoom);
 
-    return newRoom;
-    }
+
+
     
-    if (playerColor === userColorUsecase.getUserColor(userId)) {
+    if (playerColor === userColorUsecase.getUserColor(userId) && newBoard[y][x] === 3) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
       look_naname3(x, y, userId);
@@ -273,22 +271,12 @@ export const roomUsecase = {
           }
         });
       });
-      let a = 0
-      newBoard.forEach((row, y) => {
-        row.forEach((element, x) => {
-          if (element === 3) {
-            a =a + 1
-          }
-        });
-      });
-      if (a>=1){
-          await roomsRepository.save(newRoom);
-        return newRoom;
-        }
-      }
+      
     newBoard[y][x] = userColorUsecase.getUserColor(userId);
   playerColor = 3 - userColorUsecase.getUserColor(userId); 
+    }
     await roomsRepository.save(newRoom);
     return newRoom;
   },
 };
+
