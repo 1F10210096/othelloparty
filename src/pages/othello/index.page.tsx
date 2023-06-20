@@ -14,7 +14,7 @@ const Home = () => {
   const [label, setLabel] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const fetchBoard = async () => {
-    const board = await apiClient.rooms.$get().catch(returnNull);
+    const board = await apiClient.rooms.$get({ query: { limit: 'a' } }).catch(returnNull);
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
@@ -28,7 +28,7 @@ const Home = () => {
   };
 
   const fetchRoomId = async () => {
-    const RoomId = await apiClient.rooms.$get().catch(returnNull);
+    const RoomId = await apiClient.rooms.$get({ query: { limit: '1' } }).catch(returnNull);
     if (RoomId === null) {
       const newRoomId = await apiClient.rooms.$post();
       setRoomId(String(newRoomId.id));
@@ -44,17 +44,12 @@ const Home = () => {
 
   const createTask = async (e: FormEvent) => {
     e.preventDefault();
-    if (!label) return;
     setLabel('');
-  
-    try {
-      const labels = await apiClient.rooms.$get({ query: { limit: label } });
-      console.log(labels); // レスポンスをコンソールに出力
-      return labels;
-    } catch (error) {
-      console.error(error); // エラーメッセージをコンソールに出力
-      throw error; // エラーを再スロー
-    }
+    const label = 'a'
+    const labels = await apiClient.rooms.$get({ query: { limit: label } });
+    console.log(labels); // レスポンスをコンソールに出力
+    await fetchBoard();
+    return labels;
   };
 
   useEffect(() => {

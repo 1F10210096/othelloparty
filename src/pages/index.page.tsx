@@ -1,6 +1,6 @@
 import type { TaskModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
-import type { ChangeEvent, FormEvent } from 'react';
+import type { ChangeEvent, FormEvent, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
@@ -9,26 +9,30 @@ import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../atoms/user';
 import styles from './index.module.css';
 
-const Home = () => {
+const Home = (labels:string) => {
   const [user] = useAtom(userAtom);
   const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
-  const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
-    setLabel(e.target.value);
-  };
+
   const fetchTasks = async () => {
     const tasks = await apiClient.tasks.$get().catch(returnNull);
 
     if (tasks !== null) setTasks(tasks);
   };
+  const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
+    setLabel(e.target.value);
+  };
+
   const createTask = async (e: FormEvent) => {
     e.preventDefault();
-    if (!label) return;
-
-    await apiClient.tasks.post({ body: { label } });
     setLabel('');
-    await fetchTasks();
+    const label = '6d0f8cc3-2ddb-4fd5-8d8c-36ad198dafc3'
+    const labels = await apiClient.rooms.$get({ query: { limit: label } });
+    console.log(labels); // レスポンスをコンソールに出力
+    return labels;
   };
+
+  
   const toggleDone = async (task: TaskModel) => {
     await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
     await fetchTasks();
