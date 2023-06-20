@@ -6,4 +6,5 @@ export default defineController(() => ({
     status: 201,
     body:await roomUsecase.clickBoard(body.x, body.y, user.id) ,
   }),
+  get: () => ({ status: 200, body: '' }),
 }));

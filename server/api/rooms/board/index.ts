@@ -5,5 +5,8 @@ export type Methods = {
     reqBody: { x: number; y: number };
     resBody: RoomModel;
   };
+  get: {
+    resBody: string;
+  };
 };
 
