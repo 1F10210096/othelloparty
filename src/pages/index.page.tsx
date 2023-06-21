@@ -1,5 +1,6 @@
 import type { TaskModel } from '$/commonTypesWithClient/models';
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import type { ChangeEvent, FormEvent, SetStateAction } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
@@ -8,11 +9,13 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../atoms/user';
 import styles from './index.module.css';
+import type { RoomModel } from '$/commonTypesWithClient/models';
 
-const Home = (labels:string) => {
+export const Home = () => {
   const [user] = useAtom(userAtom);
   const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
+  const router = useRouter();           //ルーターの取得
 
   const fetchTasks = async () => {
     const tasks = await apiClient.tasks.$get().catch(returnNull);
@@ -26,11 +29,19 @@ const Home = (labels:string) => {
   const createTask = async (e: FormEvent) => {
     e.preventDefault();
     setLabel('');
-    const label = '6d0f8cc3-2ddb-4fd5-8d8c-36ad198dafc3'
-    const labels = await apiClient.rooms.$get({ query: { limit: label } });
+    const labels = label
+    // const labels = await apiClient.rooms.$get({ query: { limit: label } });
     console.log(labels); // レスポンスをコンソールに出力
+
+    router.push({
+      pathname:"/othello",   //URL
+      query: {labels} //検索クエリ
+    });
+
+
     return labels;
   };
+
 
   
   const toggleDone = async (task: TaskModel) => {

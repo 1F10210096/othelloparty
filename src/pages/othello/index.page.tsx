@@ -1,4 +1,5 @@
 import { useAtom } from 'jotai';
+import { useRouter } from 'next/router';
 import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
@@ -13,8 +14,11 @@ const Home = () => {
   const [roomId, setRoomId] = useState('');
   const [label, setLabel] = useState('');
   const [board, setBoard] = useState<number[][]>();
+  const router = useRouter();
   const fetchBoard = async () => {
-    const board = await apiClient.rooms.$get({ query: { limit: 'a' } }).catch(returnNull);
+    const limit = router.query.labels?.toString();
+    const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
+    console.log(board)
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
@@ -42,15 +46,15 @@ const Home = () => {
     setLabel(e.target.value);
   };
 
-  const createTask = async (e: FormEvent) => {
-    e.preventDefault();
-    setLabel('');
-    const label = 'a'
-    const labels = await apiClient.rooms.$get({ query: { limit: label } });
-    console.log(labels); // レスポンスをコンソールに出力
-    await fetchBoard();
-    return labels;
-  };
+  // const createTask = async (e: FormEvent) => {
+  //   e.preventDefault();
+  //   setLabel('');
+  //   const label = 'a';
+  //   const labels = await apiClient.rooms.$get({ query: { limit: label } });
+  //   console.log(labels); // レスポンスをコンソールに出力
+  //   await fetchBoard();
+  //   return labels;
+  // };
 
   useEffect(() => {
     const cancelId = setInterval(fetchBoard, 500);
@@ -66,10 +70,10 @@ const Home = () => {
       <BasicHeader user={user} />
       <div className={styles.container}>
         <div className={styles.me} />
-        <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createTask}>
+        {/* <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createTask}>
           <input value={label} type="text" onChange={inputLabel} />
           <input type="submit" value="ADD" />
-        </form>
+        </form> */}
         <div className={styles.component} />
         <p>Room ID:{roomId}</p>
         <p>
