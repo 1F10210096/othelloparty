@@ -1,6 +1,5 @@
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
@@ -12,7 +11,6 @@ import styles from './othello.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
-  const [label, setLabel] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
   const fetchBoard = async () => {
@@ -42,9 +40,9 @@ const Home = () => {
     }
   };
 
-  const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
-    setLabel(e.target.value);
-  };
+  // const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setLabel(e.target.value);
+  // };
 
   // const createTask = async (e: FormEvent) => {
   //   e.preventDefault();

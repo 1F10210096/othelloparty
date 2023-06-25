@@ -15,8 +15,6 @@ export type TaskModel = {
 };
 
 export type RoomModel = {
-  map(arg0: (label: any) => any): unknown;
-  label(label: any): unknown;
   id:RoomId;
   board: number[][];
   status:'waiting' | 'playing' | 'ended';
