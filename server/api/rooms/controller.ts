@@ -5,7 +5,7 @@ import { defineController } from './$relay';
 export default defineController(() => ({
   get: async ({ query: { limit: label } = {} }) => ({
     status: 200,
-    body: await roomsRepository.findLatest({ query: { limit: label } }),
+    body: await roomsRepository.findLatest({ query: { limit: label } }['query']['limit']),
   }),
   post: async () => ({ status: 201, body: await roomUsecase.create() }),
 }));
