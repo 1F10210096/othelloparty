@@ -1,6 +1,5 @@
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
-import type { ChangeEvent, FormEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { Loading } from 'src/components/Loading/Loading';
 import { BasicHeader } from 'src/pages/@components/BasicHeader/BasicHeader';
@@ -8,43 +7,37 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
-const id = "30c6eb3d-4dea-4134-ab4d-2aea0ac81aa9"
+const id = 'd0dfe476-fa29-4885-a269-a8327e643686';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
-  const [label, setLabel] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
   const fetchBoard = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
-    console.log(board)
+    console.log(board);
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
+      setRoomId(newRoom.id)
     }
-    if (board !== null) setBoard(board.board);
+    if (board !== null) {
+      setBoard(board.board);
+      setRoomId(board.id)
+      console.log(roomId)
+    }
   };
   const onClick = async (x: number, y: number, roomId: string) => {
-    await apiClient.rooms.board.$post({ body: { x, y }, config: { params: { roomId } } });
-    await fetchRoomId();
+    await apiClient.rooms.board.$post({ body: { x, y, roomId } });
     await fetchBoard();
   };
 
-  const fetchRoomId = async () => {
-    const RoomId = await apiClient.rooms.$get({ query: { limit: '1' } }).catch(returnNull);
-    if (RoomId === null) {
-      const newRoomId = await apiClient.rooms.$post();
-      setRoomId(String(newRoomId.id));
-    }
-    if (RoomId !== null) {
-      setRoomId(String(RoomId.id));
-    }
-  };
 
-  const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
-    setLabel(e.target.value);
-  };
+
+  // const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setLabel(e.target.value);
+  // };
 
   // const createTask = async (e: FormEvent) => {
   //   e.preventDefault();
@@ -61,6 +54,7 @@ const Home = () => {
     return () => {
       clearInterval(cancelId);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!board || !user) return <Loading visible />;
@@ -94,7 +88,7 @@ const Home = () => {
               <div
                 className={styles.cell}
                 key={`${x}-${y}`}
-                onClick={() => onClick(x, y,id)}
+                onClick={() => onClick(x, y, roomId)}
                 style={{ position: 'relative' }}
               >
                 {color !== 0 && (
