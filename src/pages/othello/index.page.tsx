@@ -8,7 +8,7 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
-
+const id = "30c6eb3d-4dea-4134-ab4d-2aea0ac81aa9"
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
@@ -25,8 +25,8 @@ const Home = () => {
     }
     if (board !== null) setBoard(board.board);
   };
-  const onClick = async (x: number, y: number) => {
-    await apiClient.rooms.board.$post({ body: { x, y } });
+  const onClick = async (x: number, y: number, roomId: string) => {
+    await apiClient.rooms.board.$post({ body: { x, y }, config: { params: { roomId } } });
     await fetchRoomId();
     await fetchBoard();
   };
@@ -94,7 +94,7 @@ const Home = () => {
               <div
                 className={styles.cell}
                 key={`${x}-${y}`}
-                onClick={() => onClick(x, y)}
+                onClick={() => onClick(x, y,id)}
                 style={{ position: 'relative' }}
               >
                 {color !== 0 && (

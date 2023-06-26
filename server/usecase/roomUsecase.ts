@@ -29,8 +29,9 @@ export const roomUsecase = {
   },
   //clicksyori
   
-  clickBoard: async (x: number, y:number, userId:UserId): Promise<RoomModel> => {
-    const latest = await roomsRepository.findLatest()
+  clickBoard: async (x: number, y:number, userId:UserId, roomId: string): Promise<RoomModel> => {
+    const a = "20e44c6f-573e-4754-8b8c-abba0a7653e5"
+    const latest = await roomsRepository.findLatest(a)
 
 
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない')
