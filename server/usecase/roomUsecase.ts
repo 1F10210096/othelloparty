@@ -1,10 +1,11 @@
-import type { UserId } from "$/commonTypesWithClient/branded";
-import type { RoomModel } from "$/commonTypesWithClient/models";
-import { roomsRepository } from "$/repository/roomRepository";
-import { roomIdParser } from "$/service/idParsers"
-import { randomUUID } from "crypto"
-import { userColorUsecase } from "./userColorUsecase";
-import assert from "assert";
+/* eslint-disable max-lines */
+import type { UserId } from '$/commonTypesWithClient/branded';
+import type { RoomModel } from '$/commonTypesWithClient/models';
+import { roomsRepository } from '$/repository/roomRepository';
+import { roomIdParser } from '$/service/idParsers';
+import assert from 'assert';
+import { randomUUID } from 'crypto';
+import { userColorUsecase } from './userColorUsecase';
 const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -14,8 +15,8 @@ const initBoard = () => [
   [0, 0, 0, 0, 3, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
-]
-let playerColor = 1;
+];
+
 export const roomUsecase = {
   create: async () => {
     const newRoom: RoomModel = {
@@ -23,22 +24,19 @@ export const roomUsecase = {
       board: initBoard(),
       status: 'waiting',
       created: Date.now(),
-      turn:1
-    }
+      turn: 1,
+    };
     await roomsRepository.save(newRoom);
     return newRoom;
   },
   //clicksyori
-  
-  clickBoard: async (x: number, y:number,roomId:string, userId:UserId): Promise<RoomModel> => {
-    const latest = await roomsRepository.findLatest(roomId)
 
+  clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
+    const latest = await roomsRepository.findLatest(roomId);
+    assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
 
-    assert(latest, 'クリック出来てるんだからRoomが無いわけがない')
-
-    const newBoard:number[][] = JSON.parse(JSON.stringify(latest.board))
-
-    
+    const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));
+    let newTurn: number = JSON.parse(JSON.stringify(latest.turn));
     const look_right = (x: number, y: number, userId: UserId) => {
       const lookside = latest.board[y].slice(x + 1, 8);
       const somecoma = lookside.indexOf(userColorUsecase.getUserColor(userId));
@@ -84,7 +82,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname = (x: number, y: number, userId:UserId) => {
+    const look_naname = (x: number, y: number, userId: UserId) => {
       let i = 1;
       const a = [];
       while (x + i < latest.board.length && y + i < latest.board.length) {
@@ -145,37 +143,57 @@ export const roomUsecase = {
       }
     };
 
-    const look_right_kouho = (x: number, y: number,userId: UserId) => {
+    const look_right_kouho = (x: number, y: number, userId: UserId) => {
       const lookside = newBoard[y].slice(x + 1, 8);
-      const somecoma = lookside.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = lookside.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = lookside.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
     const look_left_kouho = (x: number, y: number, userId: UserId) => {
       const lookside = newBoard[y].slice(0, x).reverse();
-      const somecoma = lookside.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = lookside.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = lookside.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
     const look_Vertical1_kouho = (x: number, y: number, userId: UserId) => {
       const a = newBoard.slice(y + 1, 8);
       const b = a.map((item) => item[x]);
-      const somecoma = b.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = b.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = b.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
     const look_Vertical2_kouho = (x: number, y: number, userId: UserId) => {
       const a = newBoard.slice(0, y).reverse();
       const b = a.map((item) => item[x]);
-      const somecoma = b.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = b.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = b.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
@@ -186,9 +204,14 @@ export const roomUsecase = {
         a.push(newBoard[y + i][x + i]);
         i++;
       }
-      const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = a.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
@@ -199,9 +222,14 @@ export const roomUsecase = {
         a.push(newBoard[y - i][x - i]);
         i++;
       }
-      const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = a.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
@@ -212,9 +240,14 @@ export const roomUsecase = {
         a.push(newBoard[y - i][x + i]);
         i++;
       }
-      const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = a.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
@@ -225,21 +258,21 @@ export const roomUsecase = {
         a.push(newBoard[y + i][x - i]);
         i++;
       }
-      const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+      const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
       const looka = a.slice(0, somecoma);
-      if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
+      if (
+        looka.indexOf(0) === -1 &&
+        somecoma >= 1 &&
+        looka.indexOf(3) === -1 &&
+        looka.length >= 1
+      ) {
         newBoard[y][x] = 3;
       }
     };
 
-    const newRoom:RoomModel = { ...latest, board: newBoard };
-
-
-
-
-
     
-    if (playerColor === userColorUsecase.getUserColor(userId) && newBoard[y][x] === 3) {
+
+    if (newTurn === userColorUsecase.getUserColor(userId) && newBoard[y][x] === 3) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
       look_naname3(x, y, userId);
@@ -248,7 +281,7 @@ export const roomUsecase = {
       look_left(x, y, userId);
       look_Vertical1(x, y, userId);
       look_Vertical2(x, y, userId);
-
+      console.log("a")
       newBoard[y][x] = userColorUsecase.getUserColor(userId);
 
       newBoard.forEach((row, y) => {
@@ -261,23 +294,24 @@ export const roomUsecase = {
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 0) {
-            look_right_kouho(x, y,userId);
-            look_left_kouho(x, y,userId);
-            look_Vertical1_kouho(x, y,userId);
-            look_Vertical2_kouho(x, y,userId);
-            look_naname_kouho(x, y,userId);
-            look_naname2_kouho(x, y,userId);
-            look_naname3_kouho(x, y,userId);
-            look_naname4_kouho(x, y,userId);
+            look_right_kouho(x, y, userId);
+            look_left_kouho(x, y, userId);
+            look_Vertical1_kouho(x, y, userId);
+            look_Vertical2_kouho(x, y, userId);
+            look_naname_kouho(x, y, userId);
+            look_naname2_kouho(x, y, userId);
+            look_naname3_kouho(x, y, userId);
+            look_naname4_kouho(x, y, userId);
           }
         });
       });
-      
-    newBoard[y][x] = userColorUsecase.getUserColor(userId);
-  playerColor = 3 - userColorUsecase.getUserColor(userId); 
+      newBoard[y][x] = userColorUsecase.getUserColor(userId);
+      newTurn = 3 - newTurn
     }
+    console.log(newTurn)
+    console.log(userId)
+    const newRoom: RoomModel = { ...latest, board: newBoard, turn:newTurn };
     await roomsRepository.save(newRoom);
     return newRoom;
   },
 };
-

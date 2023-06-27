@@ -63,13 +63,13 @@ export const Home = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.title} style={{ marginTop: '160px' }}>
-        Welcome to frourio!<br />
-        <a href= "/othello">othello</a>
+        Welcome to othelloparty!<br />
+        <a href= "/othello">room</a>
       </div>
      
       <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createTask}>
         <input value={label} type="text" onChange={inputLabel} />
-        <input type="submit" value="ADD" />
+        <input type="submit" value="  in  " />
       </form>
       <ul className={styles.tasks}>
         {tasks.map((task) => (

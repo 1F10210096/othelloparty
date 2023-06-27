@@ -14,7 +14,7 @@ export const roomsRepository = {
   save: async (room: RoomModel) => {
     await prismaClient.room.upsert({
       where: { roomId: room.id },
-      update: { status: room.status, board: room.board },
+      update: { status: room.status, board: room.board ,turn:room.turn },
       create: {
         roomId: room.id,
         board: room.board,
