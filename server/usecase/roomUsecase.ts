@@ -23,6 +23,7 @@ export const roomUsecase = {
       board: initBoard(),
       status: 'waiting',
       created: Date.now(),
+      turn:1
     }
     await roomsRepository.save(newRoom);
     return newRoom;
