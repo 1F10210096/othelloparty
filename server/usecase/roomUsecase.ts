@@ -37,6 +37,7 @@ export const roomUsecase = {
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));
     let newTurn: number = JSON.parse(JSON.stringify(latest.turn));
+    console.log(newTurn)
     const look_right = (x: number, y: number, userId: UserId) => {
       const lookside = latest.board[y].slice(x + 1, 8);
       const somecoma = lookside.indexOf(userColorUsecase.getUserColor(userId));
@@ -270,9 +271,9 @@ export const roomUsecase = {
       }
     };
 
-    
+    const a = userColorUsecase.getUserColor(userId);
 
-    if (newTurn === userColorUsecase.getUserColor(userId) && newBoard[y][x] === 3) {
+    if (newBoard[y][x] === 3) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
       look_naname3(x, y, userId);
@@ -281,7 +282,6 @@ export const roomUsecase = {
       look_left(x, y, userId);
       look_Vertical1(x, y, userId);
       look_Vertical2(x, y, userId);
-      console.log("a")
       newBoard[y][x] = userColorUsecase.getUserColor(userId);
 
       newBoard.forEach((row, y) => {
@@ -307,9 +307,9 @@ export const roomUsecase = {
       });
       newBoard[y][x] = userColorUsecase.getUserColor(userId);
       newTurn = 3 - newTurn
+      console.log(newTurn)
     }
-    console.log(newTurn)
-    console.log(userId)
+
     const newRoom: RoomModel = { ...latest, board: newBoard, turn:newTurn };
     await roomsRepository.save(newRoom);
     return newRoom;
