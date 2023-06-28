@@ -6,6 +6,7 @@ import { roomIdParser } from '$/service/idParsers';
 import assert from 'assert';
 import { randomUUID } from 'crypto';
 import { userColorUsecase } from './userColorUsecase';
+import { prismaClient } from '$/service/prismaClient';
 const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -33,11 +34,11 @@ export const roomUsecase = {
 
   clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
     const latest = await roomsRepository.findLatest(roomId);
+    console.log(latest)
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));
     let newTurn: number = JSON.parse(JSON.stringify(latest.turn));
-    console.log(newTurn)
     const look_right = (x: number, y: number, userId: UserId) => {
       const lookside = latest.board[y].slice(x + 1, 8);
       const somecoma = lookside.indexOf(userColorUsecase.getUserColor(userId));
@@ -270,10 +271,9 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-
     const a = userColorUsecase.getUserColor(userId);
 
-    if (newBoard[y][x] === 3) {
+    if (newTurn === a && newBoard[y][x] === 3) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
       look_naname3(x, y, userId);
@@ -283,7 +283,6 @@ export const roomUsecase = {
       look_Vertical1(x, y, userId);
       look_Vertical2(x, y, userId);
       newBoard[y][x] = userColorUsecase.getUserColor(userId);
-
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 3) {
@@ -306,12 +305,11 @@ export const roomUsecase = {
         });
       });
       newBoard[y][x] = userColorUsecase.getUserColor(userId);
-      newTurn = 3 - newTurn
-      console.log(newTurn)
+      newTurn = 3 - newTurn;
     }
-
-    const newRoom: RoomModel = { ...latest, board: newBoard, turn:newTurn };
+    const newRoom: RoomModel = { ...latest, board: newBoard, turn: newTurn };
     await roomsRepository.save(newRoom);
+
     return newRoom;
   },
 };

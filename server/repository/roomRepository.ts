@@ -8,21 +8,26 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   board: z.array(z.array(z.number())).parse(prismaRoom.board),
   status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
-  turn:1
+  turn: prismaRoom.turn,
 });
 export const roomsRepository = {
   save: async (room: RoomModel) => {
     await prismaClient.room.upsert({
       where: { roomId: room.id },
-      update: { status: room.status, board: room.board ,turn:room.turn },
+      update: {
+        status: room.status,
+        board: room.board,
+        turn: room.turn,
+      },
       create: {
         roomId: room.id,
         board: room.board,
         status: room.status,
         createdAt: new Date(room.created),
-        turn : room.turn,
+        turn: room.turn,
       },
     });
+    console.log(room)
   },
   findLatest: async (label: string | undefined): Promise<RoomModel | undefined> => {
     const roomlist = await prismaClient.room.findMany({
