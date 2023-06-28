@@ -16,24 +16,36 @@ const Home = () => {
   const fetchBoard = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
+
     console.log(board);
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
-      setRoomId(newRoom.id)
+      setRoomId(newRoom.id);
     }
     if (board !== null) {
+      const turn = board.turn;
       setBoard(board.board);
-      setRoomId(board.id)
-      console.log(roomId)
+      setRoomId(board.id);
+      console.log(turn);
+      const currentTurnElement = document.getElementById('current-turn');
+        if (turn === 1) {
+          // eslint-disable-next-line max-depth
+          if (currentTurnElement !== null) {
+          currentTurnElement.textContent = '黒';
+          }
+        } else if (turn === 2) {
+          // eslint-disable-next-line max-depth
+          if (currentTurnElement !== null) {
+            currentTurnElement.textContent = '白';
+            }
+        }
     }
   };
   const onClick = async (x: number, y: number, roomId: string) => {
     await apiClient.rooms.board.$post({ body: { x, y, roomId } });
     await fetchBoard();
   };
-
-
 
   // const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
   //   setLabel(e.target.value);

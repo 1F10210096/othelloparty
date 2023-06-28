@@ -34,7 +34,6 @@ export const roomUsecase = {
 
   clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
     const latest = await roomsRepository.findLatest(roomId);
-    console.log(latest)
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
 
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));

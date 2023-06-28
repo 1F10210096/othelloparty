@@ -27,7 +27,6 @@ export const roomsRepository = {
         turn: room.turn,
       },
     });
-    console.log(room)
   },
   findLatest: async (label: string | undefined): Promise<RoomModel | undefined> => {
     const roomlist = await prismaClient.room.findMany({
