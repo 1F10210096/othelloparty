@@ -6,7 +6,6 @@ import { roomIdParser } from '$/service/idParsers';
 import assert from 'assert';
 import { randomUUID } from 'crypto';
 import { userColorUsecase } from './userColorUsecase';
-import { prismaClient } from '$/service/prismaClient';
 const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -26,6 +25,8 @@ export const roomUsecase = {
       status: 'waiting',
       created: Date.now(),
       turn: 1,
+      blackmen: "a",
+      whitemen: "a"
     };
     await roomsRepository.save(newRoom);
     return newRoom;

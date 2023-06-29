@@ -21,6 +21,8 @@ model Room {
   status     String
   createdAt  DateTime
   turn       Int
+  blackmen   String
+  whitemen   String
 }
 
 model UserOnRoom {

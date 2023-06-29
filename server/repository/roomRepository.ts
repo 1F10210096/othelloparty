@@ -9,6 +9,8 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
   turn: prismaRoom.turn,
+  blackmen: prismaRoom.blackmen,
+  whitemen: prismaRoom.whitemen,
 });
 export const roomsRepository = {
   save: async (room: RoomModel) => {
@@ -18,6 +20,8 @@ export const roomsRepository = {
         status: room.status,
         board: room.board,
         turn: room.turn,
+        blackmen: room.blackmen,
+        whitemen: room.whitemen
       },
       create: {
         roomId: room.id,
@@ -25,6 +29,8 @@ export const roomsRepository = {
         status: room.status,
         createdAt: new Date(room.created),
         turn: room.turn,
+        blackmen: room.blackmen,
+        whitemen: room.whitemen
       },
     });
   },

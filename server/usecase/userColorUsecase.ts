@@ -4,6 +4,7 @@ const userColorDict: { black?: UserId; white?: UserId } = {};
 export const userColorUsecase = {
   getUserColor: (userID: UserId): number => {
     if (userColorDict.black === userID) {
+      console.log(userID)
       return 1;
     } else if (userColorDict.white === userID) {
       return 2;
