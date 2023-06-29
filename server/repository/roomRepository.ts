@@ -1,5 +1,5 @@
 import type { RoomModel } from '$/commonTypesWithClient/models';
-import { roomIdParser } from '$/service/idParsers';
+import { UserIdParser, roomIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Room } from '@prisma/client';
 import { z } from 'zod';
@@ -9,9 +9,10 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   status: z.enum(['waiting', 'playing', 'ended']).parse(prismaRoom.status),
   created: prismaRoom.createdAt.getTime(),
   turn: prismaRoom.turn,
-  blackmen: prismaRoom.blackmen,
-  whitemen: prismaRoom.whitemen,
+  blackmen: UserIdParser.parse(prismaRoom.blackmen),
+  whitemen: UserIdParser.parse(prismaRoom.whitemen),
 });
+
 export const roomsRepository = {
   save: async (room: RoomModel) => {
     await prismaClient.room.upsert({

@@ -1,18 +1,24 @@
 import type { UserId } from '$/commonTypesWithClient/branded';
+import { roomsRepository } from '$/repository/roomRepository';
+import assert from 'assert';
 
-const userColorDict: { black?: UserId; white?: UserId } = {};
 export const userColorUsecase = {
-  getUserColor: (userID: UserId): number => {
-    if (userColorDict.black === userID) {
-      console.log(userID)
+  getUserColor: async (userID: UserId, roomID: string): Promise<number> => {
+    const room = await roomsRepository.findLatest(roomID);
+    assert(room, 'クリック出来てるんだからRoomが無いわけがない');
+
+    if (room.blackmen === userID) {
       return 1;
-    } else if (userColorDict.white === userID) {
+    } else if (room.whitemen=== userID) {
       return 2;
-    } else if (userColorDict.black === undefined) {
-      userColorDict.black = userID;
+    } else if (room.blackmen === 'a') {
+      room.blackmen = userID;
+      await roomsRepository.save(room);
       return 1;
+
     } else {
-      userColorDict.white = userID;
+      room.whitemen = userID;
+      await roomsRepository.save(room);
       return 2;
     }
   },
