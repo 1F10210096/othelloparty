@@ -23,6 +23,7 @@ model Room {
   turn       Int
   blackmen   String
   whitemen   String
+  kansenn    String[]
 }
 
 model UserOnRoom {

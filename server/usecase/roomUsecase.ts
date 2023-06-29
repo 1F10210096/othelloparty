@@ -27,6 +27,7 @@ export const roomUsecase = {
       turn: 1,
       blackmen: 'a',
       whitemen: 'a',
+      kannsenn: [],
     };
     await roomsRepository.save(newRoom);
     return newRoom;
@@ -287,7 +288,7 @@ export const roomUsecase = {
 
       const newRoom1: RoomModel = { ...latest, board: newBoard, turn: newTurn };
       await roomsRepository.save(newRoom1);
-      
+
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 3) {

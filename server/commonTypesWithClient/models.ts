@@ -22,4 +22,5 @@ export type RoomModel = {
   turn:number;
   blackmen:string;
   whitemen:string;
+  kannsenn:string[];
 }
