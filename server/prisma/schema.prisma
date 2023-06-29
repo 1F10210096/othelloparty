@@ -24,6 +24,7 @@ model Room {
   blackmen   String
   whitemen   String
   kansenn    String[]
+  knum       Int
 }
 
 model UserOnRoom {

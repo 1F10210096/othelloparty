@@ -27,7 +27,8 @@ export const roomUsecase = {
       turn: 1,
       blackmen: 'a',
       whitemen: 'a',
-      kannsenn: [],
+      kansenn: [],
+      knum:0,
     };
     await roomsRepository.save(newRoom);
     return newRoom;
@@ -41,7 +42,7 @@ export const roomUsecase = {
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));
     let newTurn: number = JSON.parse(JSON.stringify(latest.turn));
 
-    const look_right = async (x: number, y: number, userId: UserId) => {
+    const look_right = async (x: number, y: number) => {
       const lookside = latest.board[y].slice(x + 1, 8);
       const somecoma = lookside.indexOf(await hogeroomId);
       const looka = lookside.slice(0, somecoma);
@@ -52,7 +53,7 @@ export const roomUsecase = {
       }
       return newBoard;
     };
-    const look_left = async (x: number, y: number, userId: UserId) => {
+    const look_left = async (x: number, y: number) => {
       const lookside = latest.board[y].slice(0, x).reverse();
       const somecoma = lookside.indexOf(await hogeroomId);
       const looka = lookside.slice(0, somecoma);
@@ -64,7 +65,7 @@ export const roomUsecase = {
       return newBoard;
     };
 
-    const look_Vertical1 = async (x: number, y: number, userId: UserId) => {
+    const look_Vertical1 = async (x: number, y: number) => {
       const c = latest.board.slice(y + 1, 8);
       const b = c.map((item) => item[x]);
       const somecoma = b.indexOf(await hogeroomId);
@@ -75,7 +76,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_Vertical2 = async (x: number, y: number, userId: UserId) => {
+    const look_Vertical2 = async (x: number, y: number) => {
       const a = latest.board.slice(0, y).reverse();
       const b = a.map((item) => item[x]);
       const somecoma = b.indexOf(await hogeroomId);
@@ -86,7 +87,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname = async (x: number, y: number, userId: UserId) => {
+    const look_naname = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x + i < latest.board.length && y + i < latest.board.length) {
@@ -101,7 +102,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname2 = async (x: number, y: number, userId: UserId) => {
+    const look_naname2 = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x - i >= 0 && y - i >= 0) {
@@ -116,7 +117,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname3 = async (x: number, y: number, userId: UserId) => {
+    const look_naname3 = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x + i < latest.board.length && y - i >= 0) {
@@ -131,7 +132,7 @@ export const roomUsecase = {
         }
       }
     };
-    const look_naname4 = async (x: number, y: number, userId: UserId) => {
+    const look_naname4 = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x - i >= 0 && y + i < latest.board.length) {
@@ -147,7 +148,7 @@ export const roomUsecase = {
       }
     };
 
-    const look_right_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_right_kouho = async (x: number, y: number) => {
       const lookside = newBoard[y].slice(x + 1, 8);
       const somecoma = lookside.indexOf(3 - (await hogeroomId));
       const looka = lookside.slice(0, somecoma);
@@ -160,7 +161,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_left_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_left_kouho = async (x: number, y: number) => {
       const lookside = newBoard[y].slice(0, x).reverse();
       const somecoma = lookside.indexOf(3 - (await hogeroomId));
       const looka = lookside.slice(0, somecoma);
@@ -173,7 +174,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_Vertical1_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_Vertical1_kouho = async (x: number, y: number) => {
       const a = newBoard.slice(y + 1, 8);
       const b = a.map((item) => item[x]);
       const somecoma = b.indexOf(3 - (await hogeroomId));
@@ -187,7 +188,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_Vertical2_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_Vertical2_kouho = async (x: number, y: number) => {
       const a = newBoard.slice(0, y).reverse();
       const b = a.map((item) => item[x]);
       const somecoma = b.indexOf(3 - (await hogeroomId));
@@ -201,7 +202,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_naname_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_naname_kouho = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x + i < newBoard.length && y + i < newBoard.length) {
@@ -219,7 +220,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_naname2_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_naname2_kouho = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x - i >= 0 && y - i >= 0) {
@@ -237,7 +238,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_naname3_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_naname3_kouho = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x + i < newBoard.length && y - i >= 0) {
@@ -255,7 +256,7 @@ export const roomUsecase = {
         newBoard[y][x] = 3;
       }
     };
-    const look_naname4_kouho = async (x: number, y: number, userId: UserId) => {
+    const look_naname4_kouho = async (x: number, y: number) => {
       let i = 1;
       const a = [];
       while (x - i >= 0 && y + i < newBoard.length) {
@@ -276,14 +277,14 @@ export const roomUsecase = {
 
 
     if (newTurn === (hogeroomId) && newBoard[y][x] === 3) {
-      look_naname(x, y, userId);
-      look_naname2(x, y, userId);
-      look_naname3(x, y, userId);
-      look_naname4(x, y, userId);
-      look_right(x, y, userId);
-      look_left(x, y, userId);
-      look_Vertical1(x, y, userId);
-      look_Vertical2(x, y, userId);
+      look_naname(x, y);
+      look_naname2(x, y);
+      look_naname3(x, y);
+      look_naname4(x, y);
+      look_right(x, y);
+      look_left(x, y);
+      look_Vertical1(x, y);
+      look_Vertical2(x, y);
       newBoard[y][x] = hogeroomId;
 
       const newRoom1: RoomModel = { ...latest, board: newBoard, turn: newTurn };
@@ -300,14 +301,14 @@ export const roomUsecase = {
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 0) {
-            look_right_kouho(x, y, userId);
-            look_left_kouho(x, y, userId);
-            look_Vertical1_kouho(x, y, userId);
-            look_Vertical2_kouho(x, y, userId);
-            look_naname_kouho(x, y, userId);
-            look_naname2_kouho(x, y, userId);
-            look_naname3_kouho(x, y, userId);
-            look_naname4_kouho(x, y, userId);
+            look_right_kouho(x, y);
+            look_left_kouho(x, y);
+            look_Vertical1_kouho(x, y);
+            look_Vertical2_kouho(x, y);
+            look_naname_kouho(x, y);
+            look_naname2_kouho(x, y);
+            look_naname3_kouho(x, y);
+            look_naname4_kouho(x, y);
           }
         });
       });
