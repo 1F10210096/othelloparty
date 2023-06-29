@@ -26,6 +26,7 @@ export const userColorUsecase = {
         return 4;
       } else {
         room.kansenn.push(userID);
+        room.knum = room.kansenn.length;
         await roomsRepository.save(room);
         console.log(room);
         return 4;

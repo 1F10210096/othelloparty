@@ -7,12 +7,16 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
+import { a } from 'vitest/dist/global-fe52f84b';
 
+// eslint-disable-next-line max-depth
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
+  
+  // eslint-disable-next-line complexity
   const fetchBoard = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
@@ -39,6 +43,13 @@ const Home = () => {
           if (currentTurnElement !== null) {
             currentTurnElement.textContent = '白';
             }
+        }
+        const currentnum = document.getElementById('current-num');
+        if (currentnum === null) {
+          // 'currentnum' が 'null' の場合の処理
+          console.log("Element 'current-turn' not found");
+        } else {
+          currentnum.textContent = board.knum.toString();
         }
     }
   };
@@ -84,6 +95,9 @@ const Home = () => {
         <p>Room ID:{roomId}</p>
         <p>
           現在の手番は<span id="current-turn">黒</span>です
+        </p>
+        <p>
+          感染者 <span id="current-num"> 0 </span> 人です
         </p>
 
         {/* <p>
