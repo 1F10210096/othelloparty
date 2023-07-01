@@ -11,8 +11,10 @@ const toRoomModel = (prismaRoom: Room): RoomModel => ({
   turn: prismaRoom.turn,
   blackmen: UserIdParser.parse(prismaRoom.blackmen),
   whitemen: UserIdParser.parse(prismaRoom.whitemen),
-  kansenn:prismaRoom.kansenn || [],
-  knum:prismaRoom.knum,
+  kansenn: prismaRoom.kansenn || [],
+  knum: prismaRoom.knum,
+  blackname: UserIdParser.parse(prismaRoom.blackname),
+  whitename: UserIdParser.parse(prismaRoom.whitename),
 });
 
 export const roomsRepository = {
@@ -26,7 +28,9 @@ export const roomsRepository = {
         blackmen: room.blackmen,
         whitemen: room.whitemen,
         kansenn: room.kansenn,
-        knum: room.knum
+        knum: room.knum,
+        blackname: room.blackname,
+        whitename: room.whitename,
       },
       create: {
         roomId: room.id,
@@ -37,7 +41,9 @@ export const roomsRepository = {
         blackmen: room.blackmen,
         whitemen: room.whitemen,
         kansenn: room.kansenn,
-        knum:room.knum
+        knum: room.knum,
+        blackname: room.blackname,
+        whitename: room.whitename,
       },
     });
   },

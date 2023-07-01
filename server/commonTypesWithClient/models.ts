@@ -24,4 +24,6 @@ export type RoomModel = {
   whitemen:string;
   kansenn:string[];
   knum:number;
+  blackname:string;
+  whitename:string;
 }

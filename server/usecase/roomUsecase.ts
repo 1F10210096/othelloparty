@@ -29,11 +29,13 @@ export const roomUsecase = {
       whitemen: 'a',
       kansenn: [],
       knum: 0,
+      blackname:"a",
+      whitename:"a",
     };
     await roomsRepository.save(newRoom);
     return newRoom;
   },
-  
+
   //click
 
   clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
