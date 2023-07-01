@@ -1,3 +1,4 @@
+import type { UserId } from '$/commonTypesWithClient/branded';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -7,15 +8,36 @@ import { apiClient } from 'src/utils/apiClient';
 import { returnNull } from 'src/utils/returnNull';
 import { userAtom } from '../../atoms/user';
 import styles from './othello.module.css';
-import { a } from 'vitest/dist/global-fe52f84b';
 
 // eslint-disable-next-line max-depth
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
+  const [userId,setUserId] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
-  
+
+  // eslint-disable-next-line complexity
+  const id = async (userId: UserId) => {
+    const limit = router.query.labels?.toString();
+    const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
+    if (board === null) {
+      const newRoom = await apiClient.rooms.$post();
+      const newMe = await apiClient.me.$get();
+      setBoard(newRoom.board);
+      setRoomId(newRoom.id);
+      setUserId(newMe.id)
+      console.log(newMe.id)
+    }
+    if (board !== null) {
+      const currentcolor = document.getElementById('current-color');
+      if (currentcolor === null) {
+        console.log("Element 'current-color' not found");
+      } else if (board.blackmen === userId) {
+        currentcolor.textContent = board.knum.toString();
+      }
+    }
+  };
   // eslint-disable-next-line complexity
   const fetchBoard = async () => {
     const limit = router.query.labels?.toString();
@@ -33,29 +55,29 @@ const Home = () => {
       setRoomId(board.id);
       console.log(turn);
       const currentTurnElement = document.getElementById('current-turn');
-        if (turn === 1) {
-          // eslint-disable-next-line max-depth
-          if (currentTurnElement !== null) {
+      if (turn === 1) {
+        // eslint-disable-next-line max-depth
+        if (currentTurnElement !== null) {
           currentTurnElement.textContent = '黒';
-          }
-        } else if (turn === 2) {
-          // eslint-disable-next-line max-depth
-          if (currentTurnElement !== null) {
-            currentTurnElement.textContent = '白';
-            }
         }
-        const currentnum = document.getElementById('current-num');
-        if (currentnum === null) {
-          // 'currentnum' が 'null' の場合の処理
-          console.log("Element 'current-turn' not found");
-        } else {
-          currentnum.textContent = board.knum.toString();
+      } else if (turn === 2) {
+        // eslint-disable-next-line max-depth
+        if (currentTurnElement !== null) {
+          currentTurnElement.textContent = '白';
         }
+      }
+      const currentnum = document.getElementById('current-num');
+      if (currentnum === null) {
+        console.log("Element 'current-turn' not found");
+      } else {
+        currentnum.textContent = board.knum.toString();
+      }
     }
   };
   const onClick = async (x: number, y: number, roomId: string) => {
     await apiClient.rooms.board.$post({ body: { x, y, roomId } });
     await fetchBoard();
+    await id();
   };
 
   // const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
@@ -98,6 +120,9 @@ const Home = () => {
         </p>
         <p>
           感染者 <span id="current-num"> 0 </span> 人です
+        </p>
+        <p>
+          あなたは <span id="current-color"> 感染者 </span> です
         </p>
 
         {/* <p>
