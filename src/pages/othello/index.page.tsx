@@ -1,4 +1,3 @@
-import type { UserId } from '$/commonTypesWithClient/branded';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -13,21 +12,45 @@ import styles from './othello.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
-  const [userId,setUserId] = useState('');
+  const [userId, setUserId] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
 
+  const Id = async () => {
+    const newMe = await apiClient.me.$get();
+    const limit = router.query.labels?.toString();
+    const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
+    setUserId(newMe.id);
+    const currentmen = document.getElementById('current-men');
+    console.log(userId);
+    console.log(board?.blackmen);
+    if (userId === board?.blackmen) {
+      if (currentmen === null) {
+        console.log("Element 'current-men' not found");
+      } else {
+        // eslint-disable-next-line max-depth
+          currentmen.textContent = '黒';
+          console.log('abc');
+      }
+    }
+    else if (userId === board?.whitemen) {
+      if (currentmen === null) {
+        console.log("Element 'current-men' not found");
+      } else {
+        // eslint-disable-next-line max-depth
+          currentmen.textContent = '白';
+          console.log('def');
+      }
+    }
+  };
   // eslint-disable-next-line complexity
-  const id = async (userId: UserId) => {
+  const id = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
-      const newMe = await apiClient.me.$get();
       setBoard(newRoom.board);
       setRoomId(newRoom.id);
-      setUserId(newMe.id)
-      console.log(newMe.id)
     }
     if (board !== null) {
       const currentcolor = document.getElementById('current-color');
@@ -78,6 +101,7 @@ const Home = () => {
     await apiClient.rooms.board.$post({ body: { x, y, roomId } });
     await fetchBoard();
     await id();
+    await Id();
   };
 
   // const inputLabel = (e: ChangeEvent<HTMLInputElement>) => {
@@ -122,7 +146,7 @@ const Home = () => {
           感染者 <span id="current-num"> 0 </span> 人です
         </p>
         <p>
-          あなたは <span id="current-color"> 感染者 </span> です
+          あなたは <span id="current-men"> 感染者 </span> です
         </p>
 
         {/* <p>

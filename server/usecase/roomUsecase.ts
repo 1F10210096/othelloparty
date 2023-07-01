@@ -28,12 +28,13 @@ export const roomUsecase = {
       blackmen: 'a',
       whitemen: 'a',
       kansenn: [],
-      knum:0,
+      knum: 0,
     };
     await roomsRepository.save(newRoom);
     return newRoom;
   },
-  //clicksyori
+  
+  //click
 
   clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
     const hogeroomId = await userColorUsecase.getUserColor(userId, roomId);
@@ -275,8 +276,7 @@ export const roomUsecase = {
       }
     };
 
-
-    if (newTurn === (hogeroomId) && newBoard[y][x] === 3) {
+    if (newTurn === hogeroomId && newBoard[y][x] === 3) {
       look_naname(x, y);
       look_naname2(x, y);
       look_naname3(x, y);
@@ -297,7 +297,7 @@ export const roomUsecase = {
           }
         });
       });
-      console.log(newBoard)
+      console.log(newBoard);
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 0) {
@@ -313,7 +313,7 @@ export const roomUsecase = {
         });
       });
       newBoard[y][x] = hogeroomId;
-      console.log(newBoard)
+      console.log(newBoard);
       newTurn = 3 - newTurn;
     }
     const newRoom: RoomModel = { ...latest, board: newBoard, turn: newTurn };
