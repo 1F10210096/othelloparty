@@ -13,32 +13,49 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
   const [userId, setUserId] = useState('');
+  const [yourName, setyourName] = useState('');
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
 
+  // eslint-disable-next-line complexity
   const Id = async () => {
     const newMe = await apiClient.me.$get();
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
     setUserId(newMe.id);
+    if (newMe.displayName !== undefined) {
+      setyourName(newMe.displayName);
+    }
     const currentmen = document.getElementById('current-men');
+    const currentname = document.getElementById('current-name');
     console.log(userId);
     console.log(board?.blackmen);
     if (userId === board?.blackmen) {
-      if (currentmen === null) {
+      if (currentmen === null  || currentname === null) {
         console.log("Element 'current-men' not found");
       } else {
         // eslint-disable-next-line max-depth
           currentmen.textContent = '黒';
+          currentname.textContent = yourName;
           console.log('abc');
       }
     }
     else if (userId === board?.whitemen) {
-      if (currentmen === null) {
+      if (currentmen === null  || currentname === null) {
         console.log("Element 'current-men' not found");
       } else {
         // eslint-disable-next-line max-depth
           currentmen.textContent = '白';
+          currentname.textContent = yourName;
+          console.log('def');
+      }
+    }
+    else {
+      if (currentmen === null) {
+        console.log("Element 'current-men' not found");
+      } else {
+        // eslint-disable-next-line max-depth
+          currentmen.textContent = '感染者';
           console.log('def');
       }
     }
@@ -147,6 +164,10 @@ const Home = () => {
         </p>
         <p>
           あなたは <span id="current-men"> 感染者 </span> です
+        </p>
+
+        <p>
+          あなたの名前は <span id="current-name">  </span> です
         </p>
 
         {/* <p>
