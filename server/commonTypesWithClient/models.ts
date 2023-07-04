@@ -27,3 +27,5 @@ export type RoomModel = {
   blackname:string;
   whitename:string;
 }
+
+export type UserModel

@@ -14,49 +14,53 @@ const Home = () => {
   const [roomId, setRoomId] = useState('');
   const [userId, setUserId] = useState('');
   const [yourName, setyourName] = useState('');
+
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
 
   // eslint-disable-next-line complexity
   const Id = async () => {
-    const newMe = await apiClient.me.$get();
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
-    setUserId(newMe.id);
-    if (newMe.displayName !== undefined) {
-      setyourName(newMe.displayName);
-    }
     const currentmen = document.getElementById('current-men');
-    const currentname = document.getElementById('current-name');
-    console.log(userId);
-    console.log(board?.blackmen);
+    const currentname1 = document.getElementById('current-name1');
+    const currentname2 = document.getElementById('current-name2');
+    if (board === null) {
+      console.log('aho');
+    } else {
+      if (currentname1 === null || currentname2 === null) {
+        console.log(null);
+      } else {
+        currentname1.textContent = board.blackname;
+        currentname2.textContent = board.whitename
+      }
+    }
+
+
+
     if (userId === board?.blackmen) {
-      if (currentmen === null  || currentname === null) {
-        console.log("Element 'current-men' not found");
-      } else {
-        // eslint-disable-next-line max-depth
-          currentmen.textContent = '黒';
-          currentname.textContent = yourName;
-          console.log('abc');
-      }
-    }
-    else if (userId === board?.whitemen) {
-      if (currentmen === null  || currentname === null) {
-        console.log("Element 'current-men' not found");
-      } else {
-        // eslint-disable-next-line max-depth
-          currentmen.textContent = '白';
-          currentname.textContent = yourName;
-          console.log('def');
-      }
-    }
-    else {
       if (currentmen === null) {
-        console.log("Element 'current-men' not found");
+        console.log("Element 'current-men' not found1");
       } else {
         // eslint-disable-next-line max-depth
-          currentmen.textContent = '感染者';
-          console.log('def');
+        currentmen.textContent = '黒';
+        console.log('abc');
+      }
+    } else if (userId === board?.whitemen) {
+      if (currentmen === null) {
+        console.log("Element 'current-men' not found2");
+      } else {
+        // eslint-disable-next-line max-depth
+        currentmen.textContent = '白';
+        console.log('def');
+      }
+    } else {
+      if (currentmen === null) {
+        console.log("Element 'current-men' not found3");
+      } else {
+        // eslint-disable-next-line max-depth
+        currentmen.textContent = '感染者';
+        console.log('def');
       }
     }
   };
@@ -82,7 +86,6 @@ const Home = () => {
   const fetchBoard = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
-
     console.log(board);
     if (board === null) {
       const newRoom = await apiClient.rooms.$post();
@@ -155,7 +158,7 @@ const Home = () => {
           <input type="submit" value="ADD" />
         </form> */}
         <div className={styles.component} />
-        <p>Room ID:{roomId}</p>
+        <p>Room ID: {roomId}</p>
         <p>
           現在の手番は<span id="current-turn">黒</span>です
         </p>
@@ -165,11 +168,12 @@ const Home = () => {
         <p>
           あなたは <span id="current-men"> 感染者 </span> です
         </p>
-
         <p>
-          あなたの名前は <span id="current-name">  </span> です
+          あなたの名前は <span id="current-name1"> あなた </span> です
         </p>
-
+        <p>
+          あいての名前は <span id="current-name2"> あいて </span> です
+        </p>
         {/* <p>
           黒の駒数: <span id="countblack">{blackStoneCount}</span>
         </p>

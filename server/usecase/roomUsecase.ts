@@ -3,9 +3,11 @@ import type { UserId } from '$/commonTypesWithClient/branded';
 import type { RoomModel } from '$/commonTypesWithClient/models';
 import { roomsRepository } from '$/repository/roomRepository';
 import { roomIdParser } from '$/service/idParsers';
+import type { UserModel } from '$/commonTypesWithClient/models';
 import assert from 'assert';
 import { randomUUID } from 'crypto';
-import { userColorUsecase } from './userColorUsecase';
+import { userColorUsecase, username } from './userColorUsecase';
+import type { FastifyRequest } from 'fastify';
 const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -29,17 +31,22 @@ export const roomUsecase = {
       whitemen: 'a',
       kansenn: [],
       knum: 0,
-      blackname:"a",
-      whitename:"a",
+      blackname: 'あなた',
+      whitename: 'あなた',
     };
     await roomsRepository.save(newRoom);
     return newRoom;
   },
 
+  create: async() => {
+    const newUserPoint:UserPoint
+  }
+
   //click
 
-  clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
+  clickBoard: async (x: number, y: number, roomId: string, userId: UserId,userModel:UserModel): Promise<RoomModel> => {
     const hogeroomId = await userColorUsecase.getUserColor(userId, roomId);
+    const point = 
     const latest = await roomsRepository.findLatest(roomId);
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));
@@ -299,7 +306,6 @@ export const roomUsecase = {
           }
         });
       });
-      console.log(newBoard);
       newBoard.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 0) {
@@ -315,9 +321,10 @@ export const roomUsecase = {
         });
       });
       newBoard[y][x] = hogeroomId;
-      console.log(newBoard);
       newTurn = 3 - newTurn;
     }
+    
+
     const newRoom: RoomModel = { ...latest, board: newBoard, turn: newTurn };
     await roomsRepository.save(newRoom);
     return newRoom;

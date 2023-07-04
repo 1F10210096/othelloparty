@@ -1,4 +1,4 @@
-import type { RoomModel } from '$/commonTypesWithClient/models';
+import type { RoomModel, UserModel } from '$/commonTypesWithClient/models';
 import { UserIdParser, roomIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
 import type { Room } from '@prisma/client';

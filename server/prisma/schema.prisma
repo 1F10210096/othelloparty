@@ -27,6 +27,7 @@ model Room {
   knum       Int
   blackname  String
   whitename  String
+
 }
 
 model UserOnRoom {
@@ -35,6 +36,12 @@ model UserOnRoom {
   out        DateTime
   roomId     String
   Room       Room     @relation(fields: [roomId], references: [roomId])
-
   @@id([firebaseId, roomId])
 }
+
+model UserPoint {
+  firebaseId String
+  userPoint Int
+  @@id([firebaseId, userPoint])
+}
+
