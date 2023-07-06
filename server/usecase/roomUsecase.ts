@@ -38,15 +38,11 @@ export const roomUsecase = {
     return newRoom;
   },
 
-  create: async() => {
-    const newUserPoint:UserPoint
-  }
 
   //click
 
   clickBoard: async (x: number, y: number, roomId: string, userId: UserId,userModel:UserModel): Promise<RoomModel> => {
     const hogeroomId = await userColorUsecase.getUserColor(userId, roomId);
-    const point = 
     const latest = await roomsRepository.findLatest(roomId);
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
     const newBoard: number[][] = JSON.parse(JSON.stringify(latest.board));

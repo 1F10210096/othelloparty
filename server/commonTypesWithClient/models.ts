@@ -28,4 +28,7 @@ export type RoomModel = {
   whitename:string;
 }
 
-export type UserModel
+export type UserPointModel = {
+  id:string;
+  userpoint:number;
+}
