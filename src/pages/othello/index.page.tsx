@@ -13,7 +13,6 @@ const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
   const [userId, setUserId] = useState('');
-  const [yourName, setyourName] = useState('');
 
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();
@@ -32,11 +31,9 @@ const Home = () => {
         console.log(null);
       } else {
         currentname1.textContent = board.blackname;
-        currentname2.textContent = board.whitename
+        currentname2.textContent = board.whitename;
       }
     }
-
-
 
     if (userId === board?.blackmen) {
       if (currentmen === null) {
