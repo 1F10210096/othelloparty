@@ -116,9 +116,9 @@ export const look_naname4 = (x: number, y: number, userId: UserId) => {
     }
   }
 };
-const look_right_kouho = (x: number, y: number,userId: UserId) => {
+const look_right_kouho = (x: number, y: number, userId: UserId) => {
   const lookside = board[y].slice(x + 1, 8);
-  const somecoma = lookside.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = lookside.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = lookside.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -126,7 +126,7 @@ const look_right_kouho = (x: number, y: number,userId: UserId) => {
 };
 export const look_left_kouho = (x: number, y: number, userId: UserId) => {
   const lookside = board[y].slice(0, x).reverse();
-  const somecoma = lookside.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = lookside.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = lookside.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -136,7 +136,7 @@ export const look_left_kouho = (x: number, y: number, userId: UserId) => {
 export const look_Vertical1_kouho = (x: number, y: number, userId: UserId) => {
   const a = board.slice(y + 1, 8);
   const b = a.map((item) => item[x]);
-  const somecoma = b.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = b.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = b.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -145,7 +145,7 @@ export const look_Vertical1_kouho = (x: number, y: number, userId: UserId) => {
 export const look_Vertical2_kouho = (x: number, y: number, userId: UserId) => {
   const a = board.slice(0, y).reverse();
   const b = a.map((item) => item[x]);
-  const somecoma = b.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = b.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = b.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -158,7 +158,7 @@ export const look_naname_kouho = (x: number, y: number, userId: UserId) => {
     a.push(board[y + i][x + i]);
     i++;
   }
-  const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = a.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -171,7 +171,7 @@ export const look_naname2_kouho = (x: number, y: number, userId: UserId) => {
     a.push(board[y - i][x - i]);
     i++;
   }
-  const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = a.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -184,7 +184,7 @@ export const look_naname3_kouho = (x: number, y: number, userId: UserId) => {
     a.push(board[y - i][x + i]);
     i++;
   }
-  const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = a.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -197,7 +197,7 @@ export const look_naname4_kouho = (x: number, y: number, userId: UserId) => {
     a.push(board[y + i][x - i]);
     i++;
   }
-  const somecoma = a.indexOf(3-userColorUsecase.getUserColor(userId));
+  const somecoma = a.indexOf(3 - userColorUsecase.getUserColor(userId));
   const looka = a.slice(0, somecoma);
   if (looka.indexOf(0) === -1 && somecoma >= 1 && looka.indexOf(3) === -1 && looka.length >= 1) {
     board[y][x] = 3;
@@ -210,7 +210,7 @@ export const boardRepository = {
     if (board[y][x] !== 0 && board[y][x] !== 3) {
       return board;
     }
-    
+
     if (playerColor === userColorUsecase.getUserColor(userId)) {
       look_naname(x, y, userId);
       look_naname2(x, y, userId);
@@ -231,14 +231,14 @@ export const boardRepository = {
       board.forEach((row, y) => {
         row.forEach((element, x) => {
           if (element === 0) {
-            look_right_kouho(x, y,userId);
-            look_left_kouho(x, y,userId);
-            look_Vertical1_kouho(x, y,userId);
-            look_Vertical2_kouho(x, y,userId);
-            look_naname_kouho(x, y,userId);
-            look_naname2_kouho(x, y,userId);
-            look_naname3_kouho(x, y,userId);
-            look_naname4_kouho(x, y,userId);
+            look_right_kouho(x, y, userId);
+            look_left_kouho(x, y, userId);
+            look_Vertical1_kouho(x, y, userId);
+            look_Vertical2_kouho(x, y, userId);
+            look_naname_kouho(x, y, userId);
+            look_naname2_kouho(x, y, userId);
+            look_naname3_kouho(x, y, userId);
+            look_naname4_kouho(x, y, userId);
           }
         });
       });
@@ -257,16 +257,12 @@ export const boardRepository = {
 //   }
 // };
 // const onClick = (x: number, y: number) => {
-  // board.forEach((row, y) => {
-  //   row.forEach((element, x) => {
-  //     if (element === 0) {
-  //       look_right(x, y);
-  //     }
-  //   });
-  // });
+// board.forEach((row, y) => {
+//   row.forEach((element, x) => {
+//     if (element === 0) {
+//       look_right(x, y);
+//     }
+//   });
+// });
 //   console.log(board);
 // };
-
-
-
-

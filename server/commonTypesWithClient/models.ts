@@ -15,20 +15,20 @@ export type TaskModel = {
 };
 
 export type RoomModel = {
-  id:RoomId;
+  id: RoomId;
   board: number[][];
-  status:'waiting' | 'playing' | 'ended';
-  created:number;
-  turn:number;
-  blackmen:string;
-  whitemen:string;
-  kansenn:string[];
-  knum:number;
-  blackname:string;
-  whitename:string;
-}
+  status: 'waiting' | 'playing' | 'ended';
+  created: number;
+  turn: number;
+  blackmen: string;
+  whitemen: string;
+  kansenn: string[];
+  knum: number;
+  blackname: string;
+  whitename: string;
+};
 
 export type UserPointModel = {
-  id:string;
-  userpoint:number;
-}
+  id: string;
+  userpoint: number;
+};

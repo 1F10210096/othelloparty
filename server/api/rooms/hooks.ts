@@ -5,7 +5,7 @@ import { defineHooks } from './$relay';
 
 export type AdditionalRequest = {
   user: UserModel;
-  room: RoomModel
+  room: RoomModel;
 };
 
 export default defineHooks(() => ({

@@ -13,7 +13,7 @@ export const Home = () => {
   const [user] = useAtom(userAtom);
   const [tasks, setTasks] = useState<TaskModel[] | undefined>(undefined);
   const [label, setLabel] = useState('');
-  const router = useRouter();           //ルーターの取得
+  const router = useRouter(); //ルーターの取得
 
   const fetchTasks = async () => {
     const tasks = await apiClient.tasks.$get().catch(returnNull);
@@ -27,21 +27,18 @@ export const Home = () => {
   const createTask = async (e: FormEvent) => {
     e.preventDefault();
     setLabel('');
-    const labels = label
+    const labels = label;
     // const labels = await apiClient.rooms.$get({ query: { limit: label } });
     console.log(labels); // レスポンスをコンソールに出力
 
     router.push({
-      pathname:"/othello",   //URL
-      query: {labels} //検索クエリ
+      pathname: '/othello', //URL
+      query: { labels }, //検索クエリ
     });
-
 
     return labels;
   };
 
-
-  
   const toggleDone = async (task: TaskModel) => {
     await apiClient.tasks._taskId(task.id).patch({ body: { done: !task.done } });
     await fetchTasks();
@@ -61,10 +58,11 @@ export const Home = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.title} style={{ marginTop: '160px' }}>
-        Welcome to othelloparty!<br />
-        <a href= "/othello">room</a>
+        Welcome to othelloparty!
+        <br />
+        <a href="/othello">room</a>
       </div>
-     
+
       <form style={{ textAlign: 'center', marginTop: '80px' }} onSubmit={createTask}>
         <input value={label} type="text" onChange={inputLabel} />
         <input type="submit" value="  in  " />
