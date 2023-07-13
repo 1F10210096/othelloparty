@@ -12,7 +12,7 @@ import styles from './othello.module.css';
 const Home = () => {
   const [user] = useAtom(userAtom);
   const [roomId, setRoomId] = useState('');
-  const [userId, setUserId] = useState('');
+  const userId = '';
 
   const [board, setBoard] = useState<number[][]>();
   const router = useRouter();

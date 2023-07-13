@@ -1,6 +1,6 @@
 /* eslint-disable max-lines */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import type { RoomModel, UserModel } from '$/commonTypesWithClient/models';
+import type { RoomModel } from '$/commonTypesWithClient/models';
 import { roomsRepository } from '$/repository/roomRepository';
 import { roomIdParser } from '$/service/idParsers';
 import assert from 'assert';
@@ -38,13 +38,7 @@ export const roomUsecase = {
 
   //click
 
-  clickBoard: async (
-    x: number,
-    y: number,
-    roomId: string,
-    userId: UserId,
-    userModel: UserModel
-  ): Promise<RoomModel> => {
+  clickBoard: async (x: number, y: number, roomId: string, userId: UserId): Promise<RoomModel> => {
     const hogeroomId = await userColorUsecase.getUserColor(userId, roomId);
     const latest = await roomsRepository.findLatest(roomId);
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');

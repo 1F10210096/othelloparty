@@ -1,8 +1,7 @@
-import type { RoomModel } from '$/commonTypesWithClient/models';
-import type { UserPointModel } from '$/commonTypesWithClient/models';
+import type { RoomModel, UserPointModel } from '$/commonTypesWithClient/models';
 import { UserIdParser, roomIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import type { Room, UserPoint } from '@prisma/client';
+import type { Room } from '@prisma/client';
 import { z } from 'zod';
 const toRoomModel = (prismaRoom: Room): RoomModel => ({
   id: roomIdParser.parse(prismaRoom.roomId),
@@ -61,25 +60,25 @@ export const roomsRepository = {
   //   return roomInfo;
   // }
 };
-const toUserPoint = (prismaUserPoint: UserPoint): UserPoint => ({
-  firebaseId: UserIdParser.parse(prismaUserPoint.firebaseId),
-  userPoint: prismaUserPoint.userPoint,
-});
+// const toUserPoint = (prismaUserPoint: UserPoint): UserPoint => ({
+//   firebaseId: UserIdParser.parse(prismaUserPoint.firebaseId),
+//   userPoint: prismaUserPoint.userPoint,
+// });
 
 export const userPointRepository = {
   save: async (user: UserPointModel) => {
     await prismaClient.userPoint.upsert({
       update: {
         firebaseId: user.id,
-        userPoint: user.userpoint
+        userPoint: user.userpoint,
       },
       create: {
         firebaseId: user.id,
-        userPoint: user.userpoint
+        userPoint: user.userpoint,
       },
       where: {
-        firebaseId_userPoint: undefined
-      }
+        firebaseId_userPoint: undefined,
+      },
     });
   },
 };
