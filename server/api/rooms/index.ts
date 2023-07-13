@@ -1,16 +1,13 @@
 import type { RoomModel } from '$/commonTypesWithClient/models';
-type Methods = {
+
+export type Methods = {
   get: {
+    resBody: RoomModel | undefined;
     query?: {
       limit?: string;
     };
-    response: {
-      resBody: RoomModel;
-    };
   };
   post: {
-    response: {
-      resBody: RoomModel;
-    };
+    resBody: RoomModel;
   };
 };

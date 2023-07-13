@@ -1,13 +1,11 @@
 /* eslint-disable max-lines */
 import type { UserId } from '$/commonTypesWithClient/branded';
-import type { RoomModel } from '$/commonTypesWithClient/models';
+import type { RoomModel, UserModel } from '$/commonTypesWithClient/models';
 import { roomsRepository } from '$/repository/roomRepository';
 import { roomIdParser } from '$/service/idParsers';
-import type { UserModel } from '$/commonTypesWithClient/models';
 import assert from 'assert';
 import { randomUUID } from 'crypto';
-import { userColorUsecase, username } from './userColorUsecase';
-import type { FastifyRequest } from 'fastify';
+import { userColorUsecase } from './userColorUsecase';
 const initBoard = () => [
   [0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0],
@@ -38,10 +36,15 @@ export const roomUsecase = {
     return newRoom;
   },
 
-
   //click
 
-  clickBoard: async (x: number, y: number, roomId: string, userId: UserId,userModel:UserModel): Promise<RoomModel> => {
+  clickBoard: async (
+    x: number,
+    y: number,
+    roomId: string,
+    userId: UserId,
+    userModel: UserModel
+  ): Promise<RoomModel> => {
     const hogeroomId = await userColorUsecase.getUserColor(userId, roomId);
     const latest = await roomsRepository.findLatest(roomId);
     assert(latest, 'クリック出来てるんだからRoomが無いわけがない');
@@ -319,7 +322,6 @@ export const roomUsecase = {
       newBoard[y][x] = hogeroomId;
       newTurn = 3 - newTurn;
     }
-    
 
     const newRoom: RoomModel = { ...latest, board: newBoard, turn: newTurn };
     await roomsRepository.save(newRoom);

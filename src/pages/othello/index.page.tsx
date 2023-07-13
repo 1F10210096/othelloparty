@@ -24,7 +24,7 @@ const Home = () => {
     const currentmen = document.getElementById('current-men');
     const currentname1 = document.getElementById('current-name1');
     const currentname2 = document.getElementById('current-name2');
-    if (board === null) {
+    if (board === undefined || board === null) {
       console.log('aho');
     } else {
       if (currentname1 === null || currentname2 === null) {
@@ -65,12 +65,11 @@ const Home = () => {
   const id = async () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
-    if (board === null) {
+    if (board === null || board === undefined) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
       setRoomId(newRoom.id);
-    }
-    if (board !== null) {
+    } else {
       const currentcolor = document.getElementById('current-color');
       if (currentcolor === null) {
         console.log("Element 'current-color' not found");
@@ -84,12 +83,11 @@ const Home = () => {
     const limit = router.query.labels?.toString();
     const board = await apiClient.rooms.$get({ query: { limit } }).catch(returnNull);
     console.log(board);
-    if (board === null) {
+    if (board === null || board === undefined) {
       const newRoom = await apiClient.rooms.$post();
       setBoard(newRoom.board);
       setRoomId(newRoom.id);
-    }
-    if (board !== null) {
+    } else {
       const turn = board.turn;
       setBoard(board.board);
       setRoomId(board.id);
