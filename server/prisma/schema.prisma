@@ -27,7 +27,6 @@ model Room {
   knum       Int
   blackname  String
   whitename  String
-
 }
 
 model UserOnRoom {

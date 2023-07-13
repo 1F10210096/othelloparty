@@ -2,7 +2,6 @@ import type { RoomModel } from '$/commonTypesWithClient/models';
 import type { UserPointModel } from '$/commonTypesWithClient/models';
 import { UserIdParser, roomIdParser } from '$/service/idParsers';
 import { prismaClient } from '$/service/prismaClient';
-import { userpoint } from '$/usecase/userColorUsecase';
 import type { Room, UserPoint } from '@prisma/client';
 import { z } from 'zod';
 const toRoomModel = (prismaRoom: Room): RoomModel => ({

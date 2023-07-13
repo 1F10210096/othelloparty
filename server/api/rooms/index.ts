@@ -1,14 +1,16 @@
-import type { RoomModel } from "$/commonTypesWithClient/models";
-
-export type Methods = {
+import type { RoomModel } from '$/commonTypesWithClient/models';
+type Methods = {
   get: {
-    resBody:RoomModel | null;
     query?: {
       limit?: string;
     };
+    response: {
+      resBody: RoomModel;
+    };
   };
-
   post: {
-    resBody: RoomModel;
+    response: {
+      resBody: RoomModel;
+    };
   };
 };

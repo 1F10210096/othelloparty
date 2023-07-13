@@ -40,7 +40,7 @@ export const username = {
     const room = await roomsRepository.findLatest(roomID);
     assert(room, 'クリック出来てるんだからroomが無いわけがない');
     console.log(userModel);
-    console.log(userModel.displayName)
+    console.log(userModel.displayName);
     if (room.blackname === userModel.displayName) {
       return username as unknown as string;
     } else if (room.whitename === userModel.displayName) {
@@ -56,7 +56,3 @@ export const username = {
     }
   },
 };
-
-export const userpoint = {
-  getuserpoint: async (userModel:UserModel): Promise<string>
-}
