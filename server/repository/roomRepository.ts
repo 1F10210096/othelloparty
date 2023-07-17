@@ -65,20 +65,20 @@ export const roomsRepository = {
 //   userPoint: prismaUserPoint.userPoint,
 // });
 
-export const userPointRepository = {
-  save: async (user: UserPointModel) => {
-    await prismaClient.userPoint.upsert({
-      update: {
-        firebaseId: user.id,
-        userPoint: user.userpoint,
-      },
-      create: {
-        firebaseId: user.id,
-        userPoint: user.userpoint,
-      },
-      where: {
-        firebaseId_userPoint: undefined,
-      },
-    });
-  },
-};
+// export const userPointRepository = {
+//   save: async (user: UserPointModel) => {
+//     await prismaClient.userPoint.upsert({
+//       update: {
+//         firebaseId: user.id,
+//         userPoint: user.userpoint,
+//       },
+//       create: {
+//         firebaseId: user.id,
+//         userPoint: user.userpoint,
+//       },
+//       where: {
+//         firebaseId_userPoint: undefined,
+//       },
+//     });
+//   },
+// };
