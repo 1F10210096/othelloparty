@@ -58,7 +58,7 @@ export const Home = () => {
     <>
       <BasicHeader user={user} />
       <div className={styles.title} style={{ marginTop: '160px' }}>
-        Welcome to othelloparty!
+        lets othelloparty!
         <br />
         <a href="/othello">room</a>
       </div>
